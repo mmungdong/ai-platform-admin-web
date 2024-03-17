@@ -61,7 +61,7 @@ const Login = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      <Typography variant="subtitle1" sx={{ textDecoration: 'none' }}>
                         管理员账户暂不支持注册
                       </Typography>
                     </Grid>
