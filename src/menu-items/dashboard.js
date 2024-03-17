@@ -1,8 +1,8 @@
 // assets
-import { IconDashboard } from '@tabler/icons-react';
+import { IconDashboard, IconHome } from '@tabler/icons-react';
 
 // constant
-const icons = { IconDashboard };
+const icons = { IconDashboard, IconHome };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -12,10 +12,18 @@ const dashboard = {
   type: 'group',
   children: [
     {
-      id: 'default',
-      title: 'Dashboard',
+      id: 'dashboard-user-owner',
+      title: '个人面板',
       type: 'item',
-      url: '/dashboard/default',
+      url: '/',
+      icon: icons.IconHome,
+      breadcrumbs: false
+    },
+    {
+      id: 'dashboard-all',
+      title: '整体数据',
+      type: 'item',
+      url: '/dashboard',
       icon: icons.IconDashboard,
       breadcrumbs: false
     }
