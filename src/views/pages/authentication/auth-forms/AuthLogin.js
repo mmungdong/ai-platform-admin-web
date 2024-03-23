@@ -22,7 +22,6 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
@@ -30,13 +29,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // api
-import loginbtn from 'utils/api/auth/login';
+import loginApi from 'api/user/login';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
+
+  const {execute, data} = loginApi()
+
   const theme = useTheme();
-  const scriptedRef = useScriptRef();
   const [checked, setChecked] = useState(true);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -53,8 +54,7 @@ const FirebaseLogin = ({ ...others }) => {
       <Formik
         initialValues={{
           username: '',
-          password: '',
-          submit: null
+          password: ''
         }}
         validationSchema={Yup.object().shape({
           username: Yup.string().max(64).required('请输入用户名'),
@@ -62,9 +62,13 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            if (scriptedRef.current) {
+            console.log(values)
+            await execute({data: JSON.stringify({username: values.username, password: values.password})})
+            if (data.code === 200) {
               setStatus({ success: true });
               setSubmitting(false);
+            } else {
+              console.log(error)
             }
           } catch (err) {
             console.error(err);
@@ -82,17 +86,17 @@ const FirebaseLogin = ({ ...others }) => {
               <InputLabel htmlFor="outlined-adornment-email-login">用户名</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
+                type="username"
+                value={values.username}
+                name="username"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 label="Username"
                 inputProps={{}}
               />
-              {touched.email && errors.email && (
+              {touched.username && errors.username && (
                 <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
+                  {errors.username}
                 </FormHelperText>
               )}
             </FormControl>
@@ -147,7 +151,7 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button onClick={loginbtn(this.useState.username)} disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
                   登录
                 </Button>
               </AnimateButton>
