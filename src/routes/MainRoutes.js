@@ -4,8 +4,10 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-// dashboard routing
+// page routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const HomePage = Loadable(lazy(() => import('views/pages/home')));
+const UsersPage = Loadable(lazy(() => import('views/pages/back-office/Users')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -14,9 +16,6 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 
-// sample page routing
-const HomePage = Loadable(lazy(() => import('views/pages/home')));
-
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -24,7 +23,7 @@ const MainRoutes = {
   element: <MainLayout />,
   children: [
     {
-      path: '/',
+      path: '',
       element: <DashboardDefault />
     },
     {
@@ -33,6 +32,19 @@ const MainRoutes = {
         {
           path: 'default',
           element: <DashboardDefault />
+        }
+      ]
+    },
+    {
+      path: 'users',
+      element: <UsersPage />
+    },
+    {
+      path: 'utils',
+      children: [
+        {
+          path: 'util-typography',
+          element: <UtilsTypography />
         }
       ]
     },

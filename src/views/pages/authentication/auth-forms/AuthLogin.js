@@ -28,14 +28,16 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+// cookie
+import { Cookies } from 'react-cookie-consent';
+
 // api
 import loginApi from 'api/user/login';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
-
-  const {execute, data} = loginApi()
+  const { execute, data } = loginApi();
 
   const theme = useTheme();
   const [checked, setChecked] = useState(true);
@@ -62,13 +64,12 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            console.log(values)
-            await execute({data: JSON.stringify({username: values.username, password: values.password})})
-            if (data.code === 200) {
+            await execute({ data: JSON.stringify({ username: values.username, password: values.password }) });
+            if (data.message === "success") {
+              Cookies.set('ai-platform-username', data.data, { path: '/' });
+              window.location.href = "/";
               setStatus({ success: true });
               setSubmitting(false);
-            } else {
-              console.log(error)
             }
           } catch (err) {
             console.error(err);
@@ -159,7 +160,6 @@ const FirebaseLogin = ({ ...others }) => {
           </form>
         )}
       </Formik>
-
     </>
   );
 };
